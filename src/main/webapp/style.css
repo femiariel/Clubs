@@ -1,0 +1,46 @@
+/* CSS Document */
+
+body {
+  display: inline;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: GREY;
+}
+.carousel-caption{
+    background-color: rgba(207, 207, 207, 0.7);
+    border-radius:10px;
+}
+
+#acceder_aux_comptes:hover::before{
+	content: "Cette option n'est pas disponible pour le grand publique.";
+	position: absolute;		/*position par rapport au bouton*/
+	top: 100%;
+	right: 1%;
+	width: 10%;
+	background-color: #f5e0b9;
+	color: #000;
+	padding: 10px;			/*bordures du texte*/
+	border: 0;
+}
+
+h1{
+	font-family: Brush Script MT;
+	color: #FFF;
+	font-size: 72px;
+	text-shadow:
+		0 0 7px #FFDF2B,
+		0 0 10px #FFE959,
+		0 0 13px #FFEE90,
+		0 0 16px #FFF6CA,
+		0 0 20px #FFF;
+}
+
+h2{
+	font-family: Comic Sans MS, Bold;
+	font-size: 48px;
+}
+
+nav{
+	background-color: #c0c0c0;
+}
