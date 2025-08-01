@@ -1,46 +1,28 @@
 #Requires AutoHotkey v2.0
 
-; Touche de déclenchement — ici F2, tu peux changer
 F2::
 {
-    ; Sauvegarde du contenu actuel du presse-papiers
+    ; Vide le presse-papiers
     origClipboard := A_Clipboard
-    A_Clipboard := ""  ; Vide le presse-papiers pour éviter les erreurs
-    Send "^c"          ; Simule Ctrl+C pour copier la sélection
-    ClipWait 1         ; Attendre que le presse-papiers soit rempli (1 seconde max)
+    A_Clipboard := ""
+    Send "^c"
     
     if !ClipWait(1)
     {
-        MsgBox "Erreur : Aucun texte sélectionné ou copie échouée."
+        MsgBox "Erreur : Aucun texte sélectionné ou la copie a échoué."
         return
     }
 
-    ; Le texte copié
     inputText := A_Clipboard
 
-    ; Paramètres de recherche/remplacement (à adapter à ton besoin)
-    pattern := "foo"             ; Mot ou regex à chercher
-    replacement := "bar"         ; Remplacement à faire
+    ; === Traitement global ===
+    ; Remplace deux sauts de ligne ou plus par un seul
+    ; Compatible avec \n ou \r\n (Unix ou Windows)
+    cleaned := RegExReplace(inputText, "(\r?\n){2,}", "`r`n")
 
-    ; Traitement ligne par ligne
-    lines := StrSplit(inputText, "`n")
-    newLines := []
+    ; Met le résultat dans le presse-papiers
+    A_Clipboard := cleaned
 
-    for line in lines
-    {
-        ; Supprime les retours chariot Windows (\r)
-        cleanLine := StrReplace(line, "`r", "")
-        ; Applique la regex
-        newLine := RegExReplace(cleanLine, pattern, replacement)
-        newLines.Push(newLine)
-    }
-
-    ; Recompose le texte transformé
-    result := StrJoin(newLines, "`r`n")
-
-    ; Remet dans le presse-papiers
-    A_Clipboard := result
-
-    ; Message de confirmation
-    TrayTip "AutoHotkey", "Texte modifié et copié dans le presse-papiers.", 2000
+    ; Message rapide
+    TrayTip "AutoHotkey", "Sauts de ligne multiples remplacés.", 2000
 }
